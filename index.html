@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>나의 메모장</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 300px;
+    }
+    button {
+      margin-top: 10px;
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>나만의 메모장</h1>
+  <textarea id="memo"></textarea><br>
+  <button onclick="saveMemo()">저장</button>
+  <button onclick="loadMemo()">불러오기</button>
+
+  <script>
+    function saveMemo() {
+      const text = document.getElementById("memo").value;
+      localStorage.setItem("myMemo", text);
+      alert("저장 완료!");
+    }
+
+    function loadMemo() {
+      const text = localStorage.getItem("myMemo");
+      document.getElementById("memo").value = text || "";
+    }
+  </script>
+</body>
+</html>
