@@ -30,18 +30,19 @@
 
   <script>
     function saveMemo() {
-      const text = document.getElementById("memo").value;
-      const encodedText = encodeURIComponent(text);
-      const url = window.location.href.split('?')[0] + '?momo=' + encodedText;
-      window.history.pushState({},'', url);
+      const text = document.getElementById("memo").value;  // 사용자가 쓴 메모 내용 가져오기
+      localStorage.setItem("memo", text);  // 메모를 localStorage에 저장
       alert("저장 완료");
     }
 
     function loadMemo() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const memoText = urlParams.get('memo');
-      document.getElementById("memo").value = memoText ? decodeURIComponent(memoText) : '';
+      const savedMemo = localStorage.getItem("memo");  // localStorage에서 메모 가져오기
+      if (savedMemo) {
+        document.getElementById("memo").value = savedMemo;  // textarea에 메모 내용 채우기
+      }
     }
+
+    window.onload = loadMemo; 
   </script>
 </body>
 </html>
