@@ -31,13 +31,16 @@
   <script>
     function saveMemo() {
       const text = document.getElementById("memo").value;
-      localStorage.setItem("myMemo", text);
+      const encodedText = encodeURIComponent(text);
+      const url = window.location.href.split('?')[0] + '?momo=' + encodedText;
+      window.history.pushState({},'', url);
       alert("저장 완료");
     }
 
     function loadMemo() {
-      const text = localStorage.getItem("myMemo");
-      document.getElementById("memo").value = text || "";
+      const urlParams = new URLSearchParams(window.location.search);
+      const memoText = urlParams.get('memo');
+      document.getElementById("memo").value = memoText ? decodeURIComponent(memoText) : '';
     }
   </script>
 </body>
