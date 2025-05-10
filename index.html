@@ -2,42 +2,42 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>📒메모장</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+  <title>📒 내 메모장</title>
 </head>
 <body>
-  <h1>📒메모장</h1>
+  <h1>📒 내 메모장</h1>
   <textarea id="memo" rows="10" cols="40" placeholder="여기에 메모를 입력하세요"></textarea>
   <br />
   <button onclick="saveMemo()">💾 저장</button>
 
+  <!-- Firebase와 연결하는 스크립트 -->
   <script type="module">
-    import { initializeApp } from "firebase/app";
-    
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+
+    // 너가 준 Firebase 설정값
     const firebaseConfig = {
       apiKey: "AIzaSyAJOCoBHJIUGUpcBO57lSLJ27yZPn6Ljno",
       authDomain: "memo-a-2495f.firebaseapp.com",
+      databaseURL: "https://memo-a-2495f-default-rtdb.firebaseio.com",
       projectId: "memo-a-2495f",
       storageBucket: "memo-a-2495f.firebasestorage.app",
       messagingSenderId: "246914804563",
       appId: "1:246914804563:web:c7cbe8de1f4c35ad3f4fa6"
     };
-    
 
+    // Firebase 초기화
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
-
     const memoRef = ref(db, 'memo');
 
-    // 저장 함수
+    // 저장 기능
     window.saveMemo = function () {
       const content = document.getElementById("memo").value;
       set(memoRef, content);
     };
 
-    // 불러오기 (실시간 반영)
+    // 실시간 동기화 (누가 수정해도 즉시 반영)
     onValue(memoRef, (snapshot) => {
       const data = snapshot.val();
       document.getElementById("memo").value = data || "";
